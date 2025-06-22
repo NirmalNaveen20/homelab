@@ -17,3 +17,9 @@ resource "azurerm_storage_account" "main" {
   account_tier             = "Standard"
   account_replication_type = "GRS"
 }
+
+resource "azurerm_storage_container" "tfstate" {
+  name                  = "tfstate"
+  storage_account_id    = azurerm_storage_account.main.id
+  container_access_type = "private"
+}
