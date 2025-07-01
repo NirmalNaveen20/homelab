@@ -68,11 +68,15 @@ resource "azurerm_linux_virtual_machine" "vm1" {
   resource_group_name = azurerm_resource_group.main.name
   location            = azurerm_resource_group.main.location
   size                = "Standard_F2" #Standard_D2_v2_Promo
-
   admin_username      = "adminuser"
+
   network_interface_ids = [
     azurerm_network_interface.vm1.id,
   ]
+
+  identity {
+    type = "SystemAssigned"
+  }
 
   admin_ssh_key {
     username   = "adminuser"
@@ -93,3 +97,12 @@ resource "azurerm_linux_virtual_machine" "vm1" {
 
 }
 
+# Enable entra ID extension to the VM
+resource "azurerm_virtual_machine_extension" "entra_id_login" {
+  name                 = "${azurerm_linux_virtual_machine.vm1.name}-AADSSHLogin"
+  virtual_machine_id   = azurerm_linux_virtual_machine.vm1.id
+  publisher            = "Microsoft.Azure.ActiveDirectory"
+  type                 = "AADSSHLoginForLinux"
+  type_handler_version = "1.0"
+  auto_upgrade_minor_version = true
+}
