@@ -11,9 +11,9 @@ resource "azurerm_public_ip" "vm1" {
 }
 
 data "azurerm_subnet" "beta" {
-  name = "snet-beta"
+  name                 = "snet-beta"
   virtual_network_name = "network-dev-vnet"
-  resource_group_name = "network-dev-rg"
+  resource_group_name  = "network-dev-rg"
 }
 
 resource "azurerm_network_interface" "vm1" {
@@ -25,7 +25,7 @@ resource "azurerm_network_interface" "vm1" {
     name                          = "public"
     subnet_id                     = data.azurerm_subnet.beta.id
     private_ip_address_allocation = "Dynamic"
-    public_ip_address_id = azurerm_public_ip.vm1.id
+    public_ip_address_id          = azurerm_public_ip.vm1.id
   }
 }
 
@@ -99,10 +99,20 @@ resource "azurerm_linux_virtual_machine" "vm1" {
 
 # Enable entra ID extension to the VM
 resource "azurerm_virtual_machine_extension" "entra_id_login" {
-  name                 = "${azurerm_linux_virtual_machine.vm1.name}-AADSSHLogin"
-  virtual_machine_id   = azurerm_linux_virtual_machine.vm1.id
-  publisher            = "Microsoft.Azure.ActiveDirectory"
-  type                 = "AADSSHLoginForLinux"
-  type_handler_version = "1.0"
+  name                       = "${azurerm_linux_virtual_machine.vm1.name}-AADSSHLogin"
+  virtual_machine_id         = azurerm_linux_virtual_machine.vm1.id
+  publisher                  = "Microsoft.Azure.ActiveDirectory"
+  type                       = "AADSSHLoginForLinux"
+  type_handler_version       = "1.0"
   auto_upgrade_minor_version = true
+}
+
+# Add role assignment
+
+data "azurerm_client_config" "current" {}
+
+resource "azurerm_role_assignment" "entra_id_user_login" {
+  scope                = azurerm_linux_virtual_machine.vm1.id
+  role_definition_name = "Virtual Machine User Login"
+  principal_id         = data.azurerm_client_config.current.object_id
 }
