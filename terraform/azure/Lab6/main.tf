@@ -1,0 +1,76 @@
+resource "azurerm_resource_group" "main" {
+  name     = "${var.application_name}-${var.environment_name}-rg"
+  location = var.primary_location
+}
+
+resource "azurerm_public_ip" "vm1" {
+  name                = "${var.application_name}-${var.environment_name}-pip-vm1"
+  resource_group_name = azurerm_resource_group.main.name
+  location            = azurerm_resource_group.main.location
+  allocation_method   = "Static"
+}
+
+data "azurerm_subnet" "alpha" {
+  name = "snet-alpha"
+  virtual_network_name = "network-dev-vnet"
+  resource_group_name = "network-dev-rg"
+}
+
+resource "azurerm_network_interface" "vm1" {
+  name                = "${var.application_name}-${var.environment_name}-nic"
+  location            = azurerm_resource_group.main.location
+  resource_group_name = azurerm_resource_group.main.name
+
+  ip_configuration {
+    name                          = "public"
+    subnet_id                     = data.azurerm_subnet.alpha.id
+    private_ip_address_allocation = "Dynamic"
+    public_ip_address_id = azurerm_public_ip.vm1.id
+  }
+}
+
+resource "tls_private_key" "vm1" {
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
+
+resource "local_file" "private_key" {
+  content = tls_private_key.vm1.private_key_pem
+  filename = pathexpand("~/.ssh/vm1")
+  file_permission = "0600"
+}
+
+resource "local_file" "public_key" {
+  content = tls_private_key.vm1.public_key_openssh
+  filename = pathexpand("~/.ssh/vm1.pub")
+}
+
+resource "azurerm_linux_virtual_machine" "vm1" {
+  name                = "${var.application_name}${var.environment_name}vm1"
+  resource_group_name = azurerm_resource_group.main.name
+  location            = azurerm_resource_group.main.location
+  size                = "Standard_F2" #Standard_D2_v2_Promo
+
+  admin_username      = "adminuser"
+  network_interface_ids = [
+    azurerm_network_interface.vm1.id,
+  ]
+
+  admin_ssh_key {
+    username   = "adminuser"
+    public_key = tls_private_key.vm1.public_key_openssh
+  }
+
+  os_disk {
+    caching              = "ReadWrite"
+    storage_account_type = "Standard_LRS"
+  }
+
+  source_image_reference {
+    publisher = "Canonical"
+    offer     = "0001-com-ubuntu-server-jammy"
+    sku       = "22_04-lts"
+    version   = "latest"
+  }
+
+}
