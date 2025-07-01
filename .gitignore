@@ -13,7 +13,6 @@ __pycache__/
 *.pyd
 *.env
 *.venv
-env/
 venv/
 pip-log.txt
 
