@@ -10,8 +10,8 @@ resource "azurerm_public_ip" "vm1" {
   allocation_method   = "Static"
 }
 
-data "azurerm_subnet" "alpha" {
-  name = "snet-alpha"
+data "azurerm_subnet" "beta" {
+  name = "snet-beta"
   virtual_network_name = "network-dev-vnet"
   resource_group_name = "network-dev-rg"
 }
@@ -23,7 +23,7 @@ resource "azurerm_network_interface" "vm1" {
 
   ip_configuration {
     name                          = "public"
-    subnet_id                     = data.azurerm_subnet.alpha.id
+    subnet_id                     = data.azurerm_subnet.beta.id
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id = azurerm_public_ip.vm1.id
   }
@@ -34,15 +34,33 @@ resource "tls_private_key" "vm1" {
   rsa_bits  = 4096
 }
 
-resource "local_file" "private_key" {
-  content = tls_private_key.vm1.private_key_pem
-  filename = pathexpand("~/.ssh/vm1")
-  file_permission = "0600"
+# resource "local_file" "private_key" {
+#   content = tls_private_key.vm1.private_key_pem
+#   filename = pathexpand("~/.ssh/vm1")
+#   file_permission = "0600"
+# }
+
+# resource "local_file" "public_key" {
+#   content = tls_private_key.vm1.public_key_openssh
+#   filename = pathexpand("~/.ssh/vm1.pub")
+# }
+
+data "azurerm_key_vault" "main" {
+  name                = "devops-dev-j7e9m-kv"
+  resource_group_name = "devops-dev-rg"
 }
 
-resource "local_file" "public_key" {
-  content = tls_private_key.vm1.public_key_openssh
-  filename = pathexpand("~/.ssh/vm1.pub")
+resource "azurerm_key_vault_secret" "vm1_ssh_private" {
+  name         = "vm1-ssh-private"
+  value        = tls_private_key.vm1.private_key_pem
+  key_vault_id = data.azurerm_key_vault.main.id
+}
+
+
+resource "azurerm_key_vault_secret" "vm1_ssh_public" {
+  name         = "vm1-ssh-public"
+  value        = tls_private_key.vm1.public_key_openssh
+  key_vault_id = data.azurerm_key_vault.main.id
 }
 
 resource "azurerm_linux_virtual_machine" "vm1" {
@@ -74,3 +92,4 @@ resource "azurerm_linux_virtual_machine" "vm1" {
   }
 
 }
+
