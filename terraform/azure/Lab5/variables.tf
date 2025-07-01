@@ -10,3 +10,6 @@ variable "primary_location" {
 variable "base_address_space" {
   type = string
 }
+variable "subscription_id" {
+  type = string
+}
