@@ -1,6 +1,6 @@
 # 🏠 Homelab
 
-This repository is a personal lab for storing Kubernetes manifest files, automation scripts, and various DevOps-related resources. It contains day-to-day work files and tested configurations to help with cloud operations and DevOps tasks.
+This repository is my personal lab for storing Kubernetes manifest files, automation scripts, and various DevOps-related resources. It contains day-to-day work files and tested configurations to help with cloud operations and DevOps tasks.
 
 ## Contents
 
@@ -11,7 +11,7 @@ This repository is a personal lab for storing Kubernetes manifest files, automat
 
 ## Purpose
 
-Use this repository as a reference and workspace for cloud and DevOps work. All files are tested and organized for quick access and reuse.
+This repository as a reference and workspace for cloud and DevOps work. All files are tested and organized for quick access and reuse.
 
 ## Disclaimer
 
