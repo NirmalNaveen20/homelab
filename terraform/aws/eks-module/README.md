@@ -31,7 +31,6 @@ Here’s how the setup works at a high level:
 
 This setup ensures that your nodes are not directly exposed to the internet while still having outbound internet access via the NAT gateway.
 
-![alt text](/images/architecture.png)
 
 ### Step 1: Create the VPC
 We start by provisioning a robust VPC with 3 private and 3 public subnets across different AZs:
@@ -115,9 +114,6 @@ cluster_endpoint = "https://EA6F63CF5CF44B594EA9533013CF21C4.gr7.us-east-1.eks.a
 cluster_name = "CT-EKS-Cluster"
 ```
 
-![alt text](/images/eks_1.png)
-
-![alt text](/images/eks_2.png)
 
 ### Step 3: Update Your Kubeconfig
 Once the cluster is created, run the following command to configure your local kubectl to connect with EKS:
@@ -209,7 +205,6 @@ Forwarding from [::1]:8080 -> 8080
 ```
 Now open your browser at http://localhost:8080
 
-![alt text](/images/webpage.png)
 
 ### Cleanup
 Once you're done experimenting, clean up resources to avoid charges:
