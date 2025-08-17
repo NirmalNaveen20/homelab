@@ -1,0 +1,62 @@
+{
+  "name": "Google Sheets With n8n",
+  "nodes": [
+    {
+      "parameters": {
+        "resource": "spreadsheet",
+        "title": "Test",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        224,
+        -256
+      ],
+      "id": "cde4ae9b-7d38-477c-ad5c-2717cb3774a0",
+      "name": "Create spreadsheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "l6q5gq9irA4vKEVT",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -128,
+        -240
+      ],
+      "id": "4dd1407a-4cb0-4f80-9c49-a4c12908e5cf",
+      "name": "When clicking ‘Execute workflow’"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Create spreadsheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "31b5aa57-6296-4ed3-baec-0e04073f86b9",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "7709143fb141c01634817fa1d4513e3a4449d90ad89d5563d074c0634a72d334"
+  },
+  "id": "jOLxP9i04GBHUbsV",
+  "tags": []
+}

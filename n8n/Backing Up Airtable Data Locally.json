@@ -1,0 +1,133 @@
+{
+  "name": "Backing Up Airtable Data Locally",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 1
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -336,
+        -48
+      ],
+      "id": "2a4946a7-3536-4df3-8e34-49d754d60236",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "appxZs6al0dml8lsu",
+          "mode": "list",
+          "cachedResultName": "Lead Tracker",
+          "cachedResultUrl": "https://airtable.com/appxZs6al0dml8lsu"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbl8ZRUHVIHh3BWZD",
+          "mode": "list",
+          "cachedResultName": "Events",
+          "cachedResultUrl": "https://airtable.com/appxZs6al0dml8lsu/tbl8ZRUHVIHh3BWZD"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        -128,
+        -48
+      ],
+      "id": "5d778854-375d-41de-929f-ff0caf76501d",
+      "name": "Search records",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "Off94MNCHoCTUePc",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "binaryPropertyName": "=data{{ $json['Car Model'] }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        160,
+        -48
+      ],
+      "id": "e3180d40-59fc-4078-aa4b-a011aa7e1e8c",
+      "name": "Convert to File"
+    },
+    {
+      "parameters": {
+        "fileSelector": "=",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [
+        368,
+        -48
+      ],
+      "id": "fed09df6-5609-4b75-9608-8946666dcbe0",
+      "name": "Read/Write Files from Disk"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Search records",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search records": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "Read/Write Files from Disk",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "41e3d9ee-2b31-4bb5-9381-62be1f92e4cb",
+  "meta": {
+    "instanceId": "7709143fb141c01634817fa1d4513e3a4449d90ad89d5563d074c0634a72d334"
+  },
+  "id": "ToAmkhzFALDXVFQ8",
+  "tags": []
+}
