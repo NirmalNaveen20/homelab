@@ -1,0 +1,172 @@
+{
+  "name": "Airtable",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Rent Info",
+        "formDescription": "Car Rent Request",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Name",
+              "placeholder": "Type your full name",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Email",
+              "fieldType": "email",
+              "placeholder": "john.example@gmail.com",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Car Model",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "BMW"
+                  },
+                  {
+                    "option": "Benz"
+                  },
+                  {
+                    "option": "Land Rover"
+                  },
+                  {
+                    "option": "BYD"
+                  },
+                  {
+                    "option": "Nissan"
+                  },
+                  {
+                    "option": "Tesla"
+                  },
+                  {
+                    "option": "Ford"
+                  }
+                ]
+              },
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        176,
+        112
+      ],
+      "id": "cc1eaeb3-5126-4cee-bb30-d7581045c7d2",
+      "name": "On form submission",
+      "webhookId": "345171ff-b8b1-4e78-a438-8122ef52ca22"
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appxZs6al0dml8lsu",
+          "mode": "list",
+          "cachedResultName": "Lead Tracker",
+          "cachedResultUrl": "https://airtable.com/appxZs6al0dml8lsu"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbl8ZRUHVIHh3BWZD",
+          "mode": "list",
+          "cachedResultName": "Events",
+          "cachedResultUrl": "https://airtable.com/appxZs6al0dml8lsu/tbl8ZRUHVIHh3BWZD"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $json.Name }}",
+            "Car Model": "={{ $json['Car Model'] }}",
+            "Email": "={{ $json.Email }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Car Model",
+              "displayName": "Car Model",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        400,
+        112
+      ],
+      "id": "37942f47-6d2b-4f35-9b6a-8d63ceb94552",
+      "name": "Create a record",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "Off94MNCHoCTUePc",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Create a record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "8fdbc70f-5d31-4c88-aa0a-5cf567748abd",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "7709143fb141c01634817fa1d4513e3a4449d90ad89d5563d074c0634a72d334"
+  },
+  "id": "LXjCoMGGTLWHwvV9",
+  "tags": []
+}
