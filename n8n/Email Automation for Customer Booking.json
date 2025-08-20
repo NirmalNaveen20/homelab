@@ -1,0 +1,138 @@
+{
+  "name": "Email Automation for Customer Booking",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "authentication": "airtableTokenApi",
+        "baseId": {
+          "__rl": true,
+          "value": "https://airtable.com/app5Dnt38hB0crNui/tblc96Q3ZrNEkWZeY/viwtJrZfRdu3e5bv4?blocks=hide",
+          "mode": "url"
+        },
+        "tableId": {
+          "__rl": true,
+          "value": "https://airtable.com/app5Dnt38hB0crNui/tblc96Q3ZrNEkWZeY/viwtJrZfRdu3e5bv4?blocks=hide",
+          "mode": "url"
+        },
+        "triggerField": "=Order ID",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.airtableTrigger",
+      "typeVersion": 1,
+      "position": [
+        -240,
+        -96
+      ],
+      "id": "c2087ee2-83eb-4a11-bd88-2b427279ffec",
+      "name": "Airtable Trigger",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "IhkcNJetlq1wXBCJ",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4.1-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are responsible for customer orders. Your task is to collect incoming information about new orders and create a clear summary that will be sent via email to the team. The email should be signed with \"Customer Success Team\".\nHere are the details of the customer orders:\nOrder ID :{{ $json.fields['Order ID'] }}\nCustomer Name:{{ $json.fields['Customer Name'] }}\nProduct:{{ $json.fields.Product }}\nQuantity:{{ $json.fields.Quantity }}\nPrice:{{ $json.fields.Price }}\nDate:{{ $json.fields.Date }}\nStatus:{{ $json.fields.Status }}\n\nPlease provide the following output parameters:\nemail_subject\nemail_content\n\n\nmake a clear text with new lines if needed"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        -32,
+        -96
+      ],
+      "id": "cb26b363-9f62-4232-bedd-9d04f8c68230",
+      "name": "Message a model",
+      "credentials": {
+        "openAiApi": {
+          "id": "ngMAq8LD5REDAqGx",
+          "name": "n8n free OpenAI API credits"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "it21037788@my.sliit.lk",
+        "subject": "={{ $json.message.content.email_subject }}",
+        "emailType": "text",
+        "message": "={{ $json.message.content.email_content }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        320,
+        -96
+      ],
+      "id": "e2a80f11-2cb6-4fcb-a3bf-d8a8d34e9571",
+      "name": "Send a message",
+      "webhookId": "f4b01799-337c-475b-870b-fe5f83ba8ba7",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "jwfZEAlbUNQJA3dS",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Airtable Trigger": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "96e36402-492c-4fc5-b89f-ad8dbd6b7c25",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "ba2c5ffee239f2ac8bfeda6efd7ea8ee64621c0e8b330c1597a45ba0e3c14675"
+  },
+  "id": "oLtFFsLGe5hxlBsf",
+  "tags": []
+}
