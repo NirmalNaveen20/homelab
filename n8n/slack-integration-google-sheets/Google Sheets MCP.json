@@ -1,0 +1,254 @@
+{
+  "name": "Google Sheets MCP",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "2f49abca-d9ed-487f-8e3e-da2ab245d7e2"
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpTrigger",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "5475de39-8cda-4132-8a78-eee02516a60d",
+      "name": "MCP Server Trigger",
+      "webhookId": "2f49abca-d9ed-487f-8e3e-da2ab245d7e2"
+    },
+    {
+      "parameters": {
+        "description": "Retrieve rows from a Google Sheet",
+        "workflowId": {
+          "__rl": true,
+          "value": "SEbJsDRmkDbkaR8g",
+          "mode": "list",
+          "cachedResultName": "My project — Row Lookup"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query_column": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('query_column', ``, 'string') }}",
+            "query_value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('query_value', ``, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "query_column",
+              "displayName": "query_column",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "query_value",
+              "displayName": "query_value",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        96,
+        208
+      ],
+      "id": "d5aa3bef-e072-4000-a164-910805bba97f",
+      "name": "Call 'Row Lookup'"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1Pjp7WtRovzFehFrflvRZlarBq6RCWPNuJeWCKWNIG0s",
+          "mode": "list",
+          "cachedResultName": "Volunteer-Index-Full.csv",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Pjp7WtRovzFehFrflvRZlarBq6RCWPNuJeWCKWNIG0s/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 578858137,
+          "mode": "list",
+          "cachedResultName": "Volunteer-Index-Full.csv",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Pjp7WtRovzFehFrflvRZlarBq6RCWPNuJeWCKWNIG0s/edit#gid=578858137"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ID": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('ID__using_to_match_', ``, 'string') }}",
+            "Full Name": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Full_Name', ``, 'string') }}",
+            "First Name": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('First_Name', ``, 'string') }}",
+            "Email": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Email', ``, 'string') }}",
+            "Phone": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Phone', ``, 'string') }}",
+            "Last Name": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Last_Name', ``, 'string') }}",
+            "Events": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Events', ``, 'string') }}",
+            "Active": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Active', ``, 'string') }}",
+            "Manager": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Manager', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "ID"
+          ],
+          "schema": [
+            {
+              "id": "ID",
+              "displayName": "ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Full Name",
+              "displayName": "Full Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "First Name",
+              "displayName": "First Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Last Name",
+              "displayName": "Last Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Phone",
+              "displayName": "Phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Events",
+              "displayName": "Events",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Manager",
+              "displayName": "Manager",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Active",
+              "displayName": "Active",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        192,
+        304
+      ],
+      "id": "48902846-87f1-464b-988f-d7ad0fab924e",
+      "name": "Update row in sheet in Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "bJ3DBlLS4P26JQtr",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Call 'Row Lookup'": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row in sheet in Google Sheets": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "019082aa-ec36-44aa-a0d0-c346383bedb0",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "d63bc56b886dd10da978ca4847d75b5356c00161b6e987622674478f689f3e51"
+  },
+  "id": "Zc5XpJVsTLYLMH95",
+  "tags": []
+}
